@@ -1,0 +1,36 @@
+services:
+    edge-proxy:
+        image: nginx
+        volumes:
+            - ./nginx/conf.d/:/etc/nginx/conf.d
+        networks:
+            - edge
+        ports:
+            - 80:80
+
+    app1_1:
+        image: kikogamer/route-api
+        environment:
+            - APP_NAME=app1_INSTANCIA_1
+        hostname: Maquina1
+        networks:
+            - edge
+        
+    app1_2:
+        image: kikogamer/route-api
+        environment:
+            - APP_NAME=app1_INSTANCIA_2
+        hostname: Maquina2
+        networks:
+            - edge
+
+    app2:
+        image: kikogamer/route-api
+        environment:
+            - APP_NAME=app2
+        networks:
+            - edge
+
+networks:
+    edge:
+        driver: bridge
